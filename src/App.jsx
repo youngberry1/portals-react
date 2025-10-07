@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ModalPortal from './components/ModalPortal';
 import DropdownPortal from './components/DropdownPortal';
 import TooltipPortal from './components/TooltipPortal';
@@ -7,8 +7,14 @@ export default function App() {
    const [isModalOpen, setModalOpen] = useState(false);
    const [isDropdownOpen, setDropdownOpen] = useState(false);
    const [tooltip, setTooltip] = useState(null);
-   const [name, setName] = useState('');
+   const [name, setName] = useState(
+      () => localStorage.getItem('username') || ''
+   );
    const infoRef = useRef();
+
+   useEffect(() => {
+      localStorage.setItem('username', name);
+   }, [name]);
 
    const showTooltip = () => {
       const rect = infoRef.current.getBoundingClientRect();
